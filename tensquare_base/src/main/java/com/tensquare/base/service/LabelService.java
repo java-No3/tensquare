@@ -58,7 +58,7 @@ public class LabelService {
      */
     public List<Label> findAllLabel() {
         // 演示异常处理
-        // int i = 1 / 0;
+        //int i = 1 / 0;
         return labelDao.findAll();
     }
 
