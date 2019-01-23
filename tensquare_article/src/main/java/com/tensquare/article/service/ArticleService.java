@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
 import util.IdWorker;
 
 import com.tensquare.article.dao.ArticleDao;
@@ -31,6 +32,7 @@ import com.tensquare.article.pojo.Article;
  *
  */
 @Service
+@Transactional
 public class ArticleService {
 
 	@Autowired
@@ -173,5 +175,18 @@ public class ArticleService {
 		};
 
 	}
+
+    /**
+     * 更改文章审核属性
+     * @param id
+     * @param state
+     */
+	public void updateState(String id, String state) throws Exception {
+        int i = articleDao.updateState(id, state);
+        if (i == 0 ){
+           throw new Exception("修改失败");
+        }
+
+    }
 
 }
