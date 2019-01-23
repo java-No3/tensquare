@@ -189,7 +189,19 @@ public class ArticleService {
 
     }
 
+    /**
+     * 点赞
+     * @param articleId
+     */
     public void thumbUp(String articleId) {
         articleDao.thumbUp(articleId);
+    }
+
+    /**
+     * 获取头条文章
+     * @return
+     */
+    public List<Article> getTopArticle() {
+        return articleDao.getTopArticle();
     }
 }

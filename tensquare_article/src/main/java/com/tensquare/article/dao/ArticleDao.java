@@ -8,6 +8,8 @@ import com.tensquare.article.pojo.Article;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 /**
  * 数据访问接口
  * @author Administrator
@@ -32,4 +34,12 @@ public interface ArticleDao extends JpaRepository<Article,String>,JpaSpecificati
     @Modifying
     @Query("Update Article SET thumbup = thumbup + 1 where id = ?1")
     void thumbUp(String articleId);
+
+    /**
+     * 获取isTop为1的文章列表
+     * @return
+     */
+    @Modifying
+    @Query(" FROM Article  where istop = '1'")
+    List<Article> getTopArticle();
 }

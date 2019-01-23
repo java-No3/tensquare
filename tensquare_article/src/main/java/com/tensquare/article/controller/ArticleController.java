@@ -135,9 +135,20 @@ public class ArticleController {
      * @throws Exception
      */
     @RequestMapping(value = "/thumbup/{articleId}", method = RequestMethod.PUT)
-    public Result thumbUp(@PathVariable String articleId) throws Exception {
+    public Result thumbUp(@PathVariable String articleId) {
         articleService.thumbUp(articleId);
         return new Result(true, StatusCode.OK, "更改成功");
+    }
+
+
+    /**
+     * 查询头条文章
+     * @return
+     */
+    @RequestMapping(value = "/top", method = RequestMethod.GET)
+    public Result getTopArticle() {
+        List<Article> articleList = articleService.getTopArticle();
+        return new Result(true, StatusCode.OK, "查询成功", articleList);
     }
 
 
