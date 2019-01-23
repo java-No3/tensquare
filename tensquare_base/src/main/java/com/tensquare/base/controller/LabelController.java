@@ -2,9 +2,12 @@ package com.tensquare.base.controller;
 
 import com.tensquare.base.pojo.Label;
 import com.tensquare.base.service.LabelService;
+import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
+import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -73,5 +76,27 @@ public class LabelController {
         label.setId(labelId);
         labelService.addOrUpdateLabel(label);
         return new Result(true, StatusCode.OK,"修改成功");
+    }
+
+
+    /**
+     * 按照条件查询
+     * @param label
+     * @return
+     */
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public Result findSearch( @RequestBody Label label){
+        List<Label> search = labelService.findSearch(label);
+        return new Result(true, StatusCode.OK,"查询成功",search);
+    }
+
+
+    @RequestMapping(value = "/search/{page}/{size}", method = RequestMethod.POST)
+    public Result findSearchPage(@RequestBody Label label, @PathVariable Integer page, @PathVariable Integer size){
+        Page<Label> pages = labelService.findSearchPage(label, page, size);
+        Long totalPages = pages.getTotalElements();
+        List<Label> labelList = pages.getContent();
+        PageResult pageResult = new PageResult(totalPages, labelList);
+        return new Result(true, StatusCode.OK,"查询成功",pageResult);
     }
 }
