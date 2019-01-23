@@ -178,4 +178,17 @@ public class RecruitService {
 
 	}
 
+	/**
+	 * 获取推荐职位列表
+	 * @return
+	 */
+    public List<Recruit> searchRecommend() {
+        // todo 考虑思路后写
+        return null;
+    }
+
+	public List<Recruit> searchNewList() {
+        // todo 考虑思路后写
+        return null;
+	}
 }
