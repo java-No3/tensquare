@@ -127,4 +127,18 @@ public class ArticleController {
         return new Result(true, StatusCode.OK, "更改成功");
     }
 
+
+    /**
+     * 点赞
+     * @param articleId
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/thumbup/{articleId}", method = RequestMethod.PUT)
+    public Result thumbUp(@PathVariable String articleId) throws Exception {
+        articleService.thumbUp(articleId);
+        return new Result(true, StatusCode.OK, "更改成功");
+    }
+
+
 }

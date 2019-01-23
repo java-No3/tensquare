@@ -189,4 +189,7 @@ public class ArticleService {
 
     }
 
+    public void thumbUp(String articleId) {
+        articleDao.thumbUp(articleId);
+    }
 }
