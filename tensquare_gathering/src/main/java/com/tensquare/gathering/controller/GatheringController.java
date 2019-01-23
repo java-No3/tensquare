@@ -1,4 +1,4 @@
-package com.tensquare.recruit.controller;
+package com.tensquare.gathering.controller;
 import java.util.List;
 import java.util.Map;
 
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tensquare.recruit.pojo.Enterprise;
-import com.tensquare.recruit.service.EnterpriseService;
+import com.tensquare.gathering.pojo.Gathering;
+import com.tensquare.gathering.service.GatheringService;
 
 import entity.PageResult;
 import entity.Result;
@@ -24,11 +24,11 @@ import entity.StatusCode;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/enterprise")
-public class EnterpriseController {
+@RequestMapping("/gathering")
+public class GatheringController {
 
 	@Autowired
-	private EnterpriseService enterpriseService;
+	private GatheringService gatheringService;
 	
 	
 	/**
@@ -37,7 +37,7 @@ public class EnterpriseController {
 	 */
 	@RequestMapping(method= RequestMethod.GET)
 	public Result findAll(){
-		return new Result(true,StatusCode.OK,"查询成功",enterpriseService.findAll());
+		return new Result(true,StatusCode.OK,"查询成功",gatheringService.findAll());
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class EnterpriseController {
 	 */
 	@RequestMapping(value="/{id}",method= RequestMethod.GET)
 	public Result findById(@PathVariable String id){
-		return new Result(true,StatusCode.OK,"查询成功",enterpriseService.findById(id));
+		return new Result(true,StatusCode.OK,"查询成功",gatheringService.findById(id));
 	}
 
 
@@ -60,8 +60,8 @@ public class EnterpriseController {
 	 */
 	@RequestMapping(value="/search/{page}/{size}",method=RequestMethod.POST)
 	public Result findSearch(@RequestBody Map searchMap , @PathVariable int page, @PathVariable int size){
-		Page<Enterprise> pageList = enterpriseService.findSearch(searchMap, page, size);
-		return  new Result(true,StatusCode.OK,"查询成功",  new PageResult<Enterprise>(pageList.getTotalElements(), pageList.getContent()) );
+		Page<Gathering> pageList = gatheringService.findSearch(searchMap, page, size);
+		return  new Result(true,StatusCode.OK,"查询成功",  new PageResult<Gathering>(pageList.getTotalElements(), pageList.getContent()) );
 	}
 
 	/**
@@ -71,27 +71,27 @@ public class EnterpriseController {
      */
     @RequestMapping(value="/search",method = RequestMethod.POST)
     public Result findSearch( @RequestBody Map searchMap){
-        return new Result(true,StatusCode.OK,"查询成功",enterpriseService.findSearch(searchMap));
+        return new Result(true,StatusCode.OK,"查询成功",gatheringService.findSearch(searchMap));
     }
 	
 	/**
 	 * 增加
-	 * @param enterprise
+	 * @param gathering
 	 */
 	@RequestMapping(method=RequestMethod.POST)
-	public Result add(@RequestBody Enterprise enterprise  ){
-		enterpriseService.add(enterprise);
+	public Result add(@RequestBody Gathering gathering  ){
+		gatheringService.add(gathering);
 		return new Result(true,StatusCode.OK,"增加成功");
 	}
 	
 	/**
 	 * 修改
-	 * @param enterprise
+	 * @param gathering
 	 */
 	@RequestMapping(value="/{id}",method= RequestMethod.PUT)
-	public Result update(@RequestBody Enterprise enterprise, @PathVariable String id ){
-		enterprise.setId(id);
-		enterpriseService.update(enterprise);		
+	public Result update(@RequestBody Gathering gathering, @PathVariable String id ){
+		gathering.setId(id);
+		gatheringService.update(gathering);		
 		return new Result(true,StatusCode.OK,"修改成功");
 	}
 	
@@ -101,8 +101,8 @@ public class EnterpriseController {
 	 */
 	@RequestMapping(value="/{id}",method= RequestMethod.DELETE)
 	public Result delete(@PathVariable String id ){
-		enterpriseService.deleteById(id);
+		gatheringService.deleteById(id);
 		return new Result(true,StatusCode.OK,"删除成功");
 	}
-
+	
 }
