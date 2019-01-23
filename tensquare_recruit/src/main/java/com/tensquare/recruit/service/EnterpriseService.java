@@ -162,4 +162,7 @@ public class EnterpriseService {
 
 	}
 
+    public List<Enterprise> getHotList() {
+		return enterpriseDao.findAll((root, query, cb)-> cb.equal(root.get("ishot").as(String.class),"1"));
+    }
 }
