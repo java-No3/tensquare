@@ -105,7 +105,6 @@ public class EnterpriseController {
 		return new Result(true,StatusCode.OK,"删除成功");
 	}
 
-
     /**
      * 获取热门企业列表
      * @return
@@ -115,7 +114,4 @@ public class EnterpriseController {
         List<Enterprise> enterpriseList = enterpriseService.getHotList();
         return new Result(true,StatusCode.OK,"查询成功", enterpriseList);
     }
-
-
-
 }
