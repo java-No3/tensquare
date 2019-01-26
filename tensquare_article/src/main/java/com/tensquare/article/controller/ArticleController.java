@@ -130,6 +130,7 @@ public class ArticleController {
 
     /**
      * 点赞
+     *
      * @param articleId
      * @return
      * @throws Exception
@@ -143,6 +144,7 @@ public class ArticleController {
 
     /**
      * 查询头条文章
+     *
      * @return
      */
     @RequestMapping(value = "/top", method = RequestMethod.GET)
