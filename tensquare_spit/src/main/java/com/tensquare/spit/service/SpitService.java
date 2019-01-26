@@ -2,7 +2,6 @@ package com.tensquare.spit.service;
 
 import com.tensquare.spit.dao.SpitDao;
 import com.tensquare.spit.pojo.Spit;
-import entity.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
