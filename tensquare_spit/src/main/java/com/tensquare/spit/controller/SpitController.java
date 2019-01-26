@@ -2,11 +2,14 @@ package com.tensquare.spit.controller;
 
 import com.tensquare.spit.pojo.Spit;
 import com.tensquare.spit.service.SpitService;
+import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @RestController
@@ -67,10 +70,34 @@ public class SpitController {
      * @param spitId
      * @return
      */
-    @RequestMapping(value = "/{spitId}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/{spitId}",method = RequestMethod.DELETE)
     public Result deleteSpitById(@PathVariable String spitId){
         spitService.deleteSpitById(spitId);
         return new Result(true, StatusCode.OK,"删除成功");
+    }
+
+    /**
+     * 条件查询
+     * @param spit
+     * @return
+     */
+    @RequestMapping(value = "/search",method = RequestMethod.POST)
+    public Result findSpitBySearch(@RequestBody Spit spit){
+        List<Spit> spitList = spitService.findSpitBySearch(spit);
+        return new Result(true, StatusCode.OK,"查询成功", spitList);
+    }
+
+    /**
+     * 根据父id分页查询
+     * @param parentid
+     * @param page
+     * @param size
+     * @return
+     */
+    @RequestMapping(value = "/comment/{parentid}/{page}/{size}",method = RequestMethod.GET)
+    public Result findSpitByParentId(@PathVariable String parentid, @PathVariable Integer page, @PathVariable Integer size){
+        Page<Spit> spitList = spitService.findSpitByParentId(parentid, page, size);
+        return new Result(true, StatusCode.OK,"查询成功", new PageResult<>(spitList.getTotalElements(),spitList.getContent()));
     }
 
 

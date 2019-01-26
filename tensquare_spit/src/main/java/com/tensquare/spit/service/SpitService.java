@@ -2,7 +2,9 @@ package com.tensquare.spit.service;
 
 import com.tensquare.spit.dao.SpitDao;
 import com.tensquare.spit.pojo.Spit;
+import entity.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -60,6 +62,23 @@ public class SpitService {
      * @param spitId
      */
     public void thumbupSpitById(String spitId) {
+        // todo 后续完成
+    }
 
+    /**
+     * 根据条件查询
+     * @param spit
+     */
+    public List<Spit> findSpitBySearch(Spit spit) {
+        ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("content",
+                ExampleMatcher.GenericPropertyMatcher::contains);
+        return spitDao.findAll(Example.of(spit, exampleMatcher));
+    }
+
+    public Page<Spit> findSpitByParentId(String parentId, Integer page, Integer size) {
+        Spit spit = new Spit();
+        spit.setParentid(parentId);
+        PageRequest pageRequest = new PageRequest(page -1, size );
+        return spitDao.findAll(Example.of(spit),pageRequest );
     }
 }
