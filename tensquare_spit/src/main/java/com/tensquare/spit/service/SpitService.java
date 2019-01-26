@@ -81,10 +81,4 @@ public class SpitService {
         PageRequest pageRequest = new PageRequest(page -1, size );
         return spitDao.findAll(Example.of(spit),pageRequest );
     }
-
-
-
-    public void testBranch(){
-        System.out.println("git--naster");
-    }
 }
