@@ -85,6 +85,6 @@ public class SpitService {
 
 
     public void testBranch(){
-        System.out.println("git");
+        System.out.println("git--naster");
     }
 }
