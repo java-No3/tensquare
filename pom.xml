@@ -11,6 +11,7 @@
         <module>tensquare_gathering</module>
         <module>tensquare_qa</module>
         <module>tensquare_spit</module>
+        <module>tensquare_user</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
