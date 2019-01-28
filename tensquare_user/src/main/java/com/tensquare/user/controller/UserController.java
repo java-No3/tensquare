@@ -104,5 +104,13 @@ public class UserController {
 		userService.deleteById(id);
 		return new Result(true,StatusCode.OK,"删除成功");
 	}
-	
+
+
+	@RequestMapping(value="/sendsms/{mobile}",method= RequestMethod.POST)
+	public Result sendSms(@PathVariable String mobile){
+		userService.sendSms(mobile);
+		return new Result(true,StatusCode.OK,"发送成功");
+	}
+
+
 }

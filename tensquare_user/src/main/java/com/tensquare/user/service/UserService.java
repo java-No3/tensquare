@@ -1,9 +1,7 @@
 package com.tensquare.user.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -12,11 +10,13 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import util.IdWorker;
@@ -86,7 +86,7 @@ public class UserService {
 	 * @param user
 	 */
 	public void add(User user) {
-		user.setId( idWorker.nextId()+"" );
+		user.setId(idWorker.nextId()+"");
 		userDao.save(user);
 	}
 
@@ -161,5 +161,33 @@ public class UserService {
 		};
 
 	}
+
+	@Autowired
+    private RedisTemplate redisTemplate;
+	@Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    /**
+     * 注册注册用户 发送验证码
+     * @param mobileNum 用户手机号
+     */
+	public void sendSms(String mobileNum){
+        // 生成6位数字验证码
+        Random random = new Random();
+        int smsCode = random.nextInt(999999);
+        int code = 100000;
+        if (smsCode < code){
+            smsCode += code;
+        }
+        // 将验证码存入redis 并设置超时时间为5分钟
+        redisTemplate.opsForValue().set(mobileNum, smsCode, 5, TimeUnit.MINUTES);
+        Map<String, String> map = new HashMap<>();
+        map.put("mobileNum", mobileNum);
+        map.put("smsCode", Integer.toString(smsCode));
+        // 调用rabbitmq 发送消息
+        rabbitTemplate.convertAndSend("sms", map);
+        // todo 测试打印
+        System.out.println("验证码" + smsCode);
+    }
 
 }
