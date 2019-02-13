@@ -24,6 +24,10 @@ public class SmsListener {
      */
     @RabbitHandler
     public void sendSms(Map<String, String> massage){
+        // todo 测试接收
+        System.out.println("手机号 : " + massage.get("mobileNum"));
+        System.out.println("验证码 : " + massage.get("smsCode"));
+
         SmsUtil smsUtil = new SmsUtil();
         try {
             smsUtil.sendSms(massage.get("mobileNum"), templateCode, singName, massage.get("smsCode"));
