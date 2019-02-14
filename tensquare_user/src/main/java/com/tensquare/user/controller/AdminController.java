@@ -104,5 +104,15 @@ public class AdminController {
 		adminService.deleteById(id);
 		return new Result(true,StatusCode.OK,"删除成功");
 	}
-	
+
+
+    /**
+     * 登陆
+     * @param admin
+     * @return
+     */
+	@RequestMapping(value="/login",method= RequestMethod.POST)
+	public Result login(@RequestBody Admin admin ){
+        return adminService.login(admin);
+	}
 }

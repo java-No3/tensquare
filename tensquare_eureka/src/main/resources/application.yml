@@ -6,3 +6,6 @@ eureka:
     fetch-registry: false # 是否从Eureka中获取注册信息
     service-url: # Eureka客户端与服务端交互的地址
       defaultZone: http://127.0.0.1:${server.port}/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}

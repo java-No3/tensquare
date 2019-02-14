@@ -15,3 +15,5 @@ spring:
     host: 192.168.200.141
   rabbitmq:
     host: 192.168.200.141
+  main:
+    allow-bean-definition-overriding: true

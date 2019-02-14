@@ -12,11 +12,14 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 
+import entity.Result;
+import entity.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import util.IdWorker;
@@ -85,9 +88,14 @@ public class AdminService {
 	 * 增加
 	 * @param admin
 	 */
+	@Autowired
+    private BCryptPasswordEncoder encoder;
 	public void add(Admin admin) {
 		admin.setId( idWorker.nextId()+"" );
-		adminDao.save(admin);
+		// 将密码加密处理
+        String encoderPassword = encoder.encode(admin.getPassword());
+        admin.setPassword(encoderPassword);
+        adminDao.save(admin);
 	}
 
 	/**
@@ -142,4 +150,14 @@ public class AdminService {
 
 	}
 
+
+    public Result login(Admin admin) {
+        String passwordInDb = adminDao.getPasswordByUsername(admin.getLoginname());
+        String password = admin.getPassword();
+        if (encoder.matches(password,passwordInDb)){
+            return new Result(true, StatusCode.OK,"登陆成功");
+        }else {
+            return new Result(false, StatusCode.LOGINERROR,"用户名或密码错误");
+        }
+    }
 }

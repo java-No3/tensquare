@@ -2,6 +2,7 @@ package com.tensquare.qa.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.tensquare.qa.client.LabelClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -133,5 +134,12 @@ public class ProblemController {
 		return new Result(true,StatusCode.OK,"查询成功", problemList);
 	}
 
+	@Autowired
+    private LabelClient labelClient;
+	@RequestMapping(value="/label/{labelId}")
+	public Result findLabelById( @PathVariable("labelId") String labelId){
+        Result result = labelClient.findLabelById(labelId);
+        return result;
+    }
 
 }
